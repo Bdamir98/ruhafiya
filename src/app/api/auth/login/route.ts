@@ -1,83 +1,52 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
 import bcrypt from 'bcryptjs'
-import {
-  generateTokens,
-  createSession,
-  getClientIP,
-  checkLoginAttempts,
-  recordFailedLogin,
-  clearFailedLogins
-} from '@/lib/auth'
+import jwt from 'jsonwebtoken'
+
+const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret'
+const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'refresh-fallback-secret'
 
 export async function POST(request: NextRequest) {
-  const clientIP = getClientIP(request)
-  const userAgent = request.headers.get('user-agent') || 'unknown'
-
   try {
     const { email, password } = await request.json()
 
+    console.log('[AUTH] Login attempt for:', email)
+
     if (!email || !password) {
+      console.log('[AUTH] Missing email or password')
       return NextResponse.json(
         { error: 'Email and password are required' },
         { status: 400 }
       )
     }
 
-    // Check if IP or email is rate limited
-    const loginCheck = checkLoginAttempts(email)
-    const ipCheck = checkLoginAttempts(clientIP)
-
-    if (!loginCheck.allowed) {
-      const lockMinutes = Math.ceil((loginCheck.lockUntil! - Date.now()) / 60000)
-      return NextResponse.json(
-        {
-          error: 'Account temporarily locked',
-          message: `অ্যাকাউন্ট সাময়িকভাবে লক। ${lockMinutes} মিনিট পর চেষ্টা করুন।`,
-          lockUntil: loginCheck.lockUntil
-        },
-        { status: 423 }
-      )
-    }
-
-    if (!ipCheck.allowed) {
-      const lockMinutes = Math.ceil((ipCheck.lockUntil! - Date.now()) / 60000)
-      return NextResponse.json(
-        {
-          error: 'IP temporarily blocked',
-          message: `আপনার IP সাময়িকভাবে ব্লক। ${lockMinutes} মিনিট পর চেষ্টা করুন।`,
-          lockUntil: ipCheck.lockUntil
-        },
-        { status: 423 }
-      )
-    }
-
     // Find admin user
+    console.log('[AUTH] Looking up user in database...')
     const { data: adminUser, error } = await supabase
       .from('admin_users')
       .select('*')
       .eq('email', email)
       .single()
 
+    console.log('[AUTH] Database query result:', {
+      found: !!adminUser,
+      error: error?.message,
+      userActive: adminUser?.is_active
+    })
+
     if (error || !adminUser) {
-      recordFailedLogin(email)
-      recordFailedLogin(clientIP)
-
-      // Log failed login attempt
-      try {
-        await supabase.rpc('log_security_event', {
-          p_event_type: 'failed_login',
-          p_user_id: null,
-          p_ip_address: clientIP,
-          p_user_agent: userAgent,
-          p_details: { email, reason: 'user_not_found' }
-        })
-      } catch (logError) {
-        console.error('Failed to log security event:', logError)
-      }
-
+      console.log('[AUTH] User not found:', error?.message)
       return NextResponse.json(
-        { error: 'Invalid credentials' },
+        { error: 'Invalid credentials', message: 'User not found' },
+        { status: 401 }
+      )
+    }
+
+    // Check if account is active
+    if (!adminUser.is_active) {
+      console.log('[AUTH] Account is inactive')
+      return NextResponse.json(
+        { error: 'Account inactive', message: 'Account is deactivated' },
         { status: 401 }
       )
     }
@@ -85,79 +54,69 @@ export async function POST(request: NextRequest) {
     // Check if account is locked
     if (adminUser.locked_until && new Date(adminUser.locked_until) > new Date()) {
       const lockMinutes = Math.ceil((new Date(adminUser.locked_until).getTime() - Date.now()) / 60000)
+      console.log('[AUTH] Account is locked until:', adminUser.locked_until)
       return NextResponse.json(
         {
           error: 'Account locked',
-          message: `অ্যাকাউন্ট লক। ${lockMinutes} মিনিট পর চেষ্টা করুন।`
+          message: `Account locked for ${lockMinutes} minutes`
         },
         { status: 423 }
       )
     }
 
     // Verify password
+    console.log('[AUTH] Verifying password...')
     const isValidPassword = await bcrypt.compare(password, adminUser.password_hash)
+    console.log('[AUTH] Password valid:', isValidPassword)
 
     if (!isValidPassword) {
-      recordFailedLogin(email)
-      recordFailedLogin(clientIP)
-
-      // Handle failed login in database
-      try {
-        await supabase.rpc('handle_failed_login', {
-          p_email: email,
-          p_ip_address: clientIP
-        })
-      } catch (dbError) {
-        console.error('Failed to handle failed login:', dbError)
-      }
-
+      console.log('[AUTH] Invalid password')
       return NextResponse.json(
-        { error: 'Invalid credentials' },
+        { error: 'Invalid credentials', message: 'Invalid password' },
         { status: 401 }
       )
     }
 
-    // Clear failed login attempts on successful login
-    clearFailedLogins(email)
-    clearFailedLogins(clientIP)
-
-    // Reset failed attempts in database
-    try {
-      await supabase.rpc('reset_failed_login_attempts', {
-        p_email: email
-      })
-    } catch (dbError) {
-      console.error('Failed to reset failed login attempts:', dbError)
-    }
-
-    // Generate tokens
-    const { accessToken, refreshToken } = generateTokens({
+    // Generate JWT token
+    console.log('[AUTH] Generating JWT token...')
+    const tokenPayload = {
       userId: adminUser.id,
       email: adminUser.email,
-      role: 'admin',
+      role: adminUser.role || 'admin',
       permissions: ['read', 'write', 'delete']
+    }
+
+    const accessToken = jwt.sign(tokenPayload, JWT_SECRET, {
+      expiresIn: '15m',
+      issuer: 'ruhafiya-admin',
+      audience: 'ruhafiya-app'
     })
 
-    // Create session
-    let sessionId = 'fallback-session'
+    const refreshToken = jwt.sign(
+      { userId: adminUser.id, type: 'refresh' },
+      JWT_REFRESH_SECRET,
+      {
+        expiresIn: '7d',
+        issuer: 'ruhafiya-admin',
+        audience: 'ruhafiya-app'
+      }
+    )
+
+    // Update last login time
     try {
-      sessionId = await createSession(adminUser.id, userAgent, clientIP)
-    } catch (sessionError) {
-      console.error('Failed to create session:', sessionError)
+      await supabase
+        .from('admin_users')
+        .update({
+          last_login: new Date().toISOString(),
+          failed_login_attempts: 0,
+          locked_until: null
+        })
+        .eq('id', adminUser.id)
+    } catch (updateError) {
+      console.log('[AUTH] Failed to update last login:', updateError)
     }
 
-    // Log successful login
-    try {
-      await supabase.rpc('log_security_event', {
-        p_event_type: 'login',
-        p_user_id: adminUser.id,
-        p_ip_address: clientIP,
-        p_user_agent: userAgent,
-        p_details: { session_id: sessionId }
-      })
-    } catch (logError) {
-      console.error('Failed to log security event:', logError)
-    }
+    console.log('[AUTH] Login successful for:', email)
 
     // Create response
     const response = NextResponse.json({
@@ -166,7 +125,7 @@ export async function POST(request: NextRequest) {
       user: {
         id: adminUser.id,
         email: adminUser.email,
-        role: 'admin'
+        role: adminUser.role || 'admin'
       }
     })
 
@@ -182,37 +141,18 @@ export async function POST(request: NextRequest) {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60, // 7 days
-      path: '/api/auth/refresh'
-    })
-
-    response.cookies.set('session-id', sessionId, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
       maxAge: 7 * 24 * 60 * 60 // 7 days
     })
 
     return response
 
   } catch (error) {
-    console.error('Login error:', error)
-
-    // Log error
-    try {
-      await supabase.rpc('log_security_event', {
-        p_event_type: 'login_error',
-        p_user_id: null,
-        p_ip_address: clientIP,
-        p_user_agent: userAgent,
-        p_details: { error: error instanceof Error ? error.message : 'Unknown error' }
-      })
-    } catch (logError) {
-      console.error('Failed to log security event:', logError)
-    }
-
+    console.error('[AUTH] Login error:', error)
     return NextResponse.json(
-      { error: 'Internal server error' },
+      {
+        error: 'Internal server error',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     )
   }

@@ -19,7 +19,7 @@ interface FooterProps {
 
 export default function Footer({ content }: FooterProps) {
   const defaultContent = {
-    companyName: "রুহাফিয়া",
+    companyName: "Ruhafiya",
     description: "প্রাকৃতিক ব্যথা নিরাময়ের তেল - আপনার সুস্বাস্থ্যের জন্য প্রাকৃতিক সমাধান",
     phone: "+880 1XXX-XXXXXX",
     email: "info@ruhafiya.com",

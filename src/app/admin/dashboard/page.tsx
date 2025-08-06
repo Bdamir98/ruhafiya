@@ -77,14 +77,14 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-gray-50 flex">
       {/* Sidebar */}
-      <AdminSidebar 
-        activeTab={activeTab} 
+      <AdminSidebar
+        activeTab={activeTab}
         setActiveTab={setActiveTab}
         onLogout={handleLogout}
       />
 
       {/* Main Content */}
-      <div className="flex-1 lg:ml-64">
+      <div className="flex-1">
         {/* Mobile Header Spacer */}
         <div className="h-16 lg:h-0"></div>
 

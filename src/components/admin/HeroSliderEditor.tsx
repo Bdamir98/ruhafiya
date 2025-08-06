@@ -224,7 +224,7 @@ export default function HeroSliderEditor() {
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               className={inputStyles}
-              placeholder="রুহাফিয়া"
+              placeholder="Ruhafiya"
             />
           </div>
 

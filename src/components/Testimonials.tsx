@@ -34,7 +34,7 @@ export default function Testimonials({ content }: TestimonialsProps) {
       name: "ফাতেমা খাতুন",
       location: "চট্টগ্রাম",
       rating: 5,
-      comment: "হাঁটু ব্যথার জন্য অনেক ওষুধ খেয়েছি কিন্তু কোনো কাজ হয়নি। রুহাফিয়া তেল ব্যবহারে মাত্র ১৫ দিনে ব্যথা চলে গেছে।",
+      comment: "হাঁটু ব্যথার জন্য অনেক ওষুধ খেয়েছি কিন্তু কোনো কাজ হয়নি। Ruhafiya তেল ব্যবহারে মাত্র ১৫ দিনে ব্যথা চলে গেছে।",
       image: "/api/placeholder/80/80"
     },
     {
@@ -48,7 +48,7 @@ export default function Testimonials({ content }: TestimonialsProps) {
       name: "সালমা বেগম",
       location: "রাজশাহী",
       rating: 5,
-      comment: "কাঁধের ব্যথার জন্য রাতে ঘুম হতো না। রুহাফিয়া তেল ব্যবহারের পর এখন আরামে ঘুমাতে পারি। ধন্যবাদ!",
+      comment: "কাঁধের ব্যথার জন্য রাতে ঘুম হতো না। Ruhafiya তেল ব্যবহারের পর এখন আরামে ঘুমাতে পারি। ধন্যবাদ!",
       image: "/api/placeholder/80/80"
     }
   ]
@@ -434,7 +434,7 @@ export default function Testimonials({ content }: TestimonialsProps) {
           viewport={{ once: true }}
         >
           {[
-            { number: "৭০,০০০+", label: "সন্তুষ্ট গ্রাহক" },
+            { number: "৭,০০০+", label: "সন্তুষ্ট গ্রাহক" },
             { number: "৯৮%", label: "সফলতার হার" },
             { number: "৪.৯/৫", label: "গড় রেটিং" }
           ].map((stat, index) => (

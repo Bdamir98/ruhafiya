@@ -17,7 +17,7 @@ export default function ProductGallery({ content }: ProductGalleryProps) {
   const [currentImage, setCurrentImage] = useState(0)
 
   const defaultContent = {
-    title: "রুহাফিয়া প্রোডাক্ট গ্যালারি",
+    title: "Ruhafiya প্রোডাক্ট গ্যালারি",
     subtitle: "প্রাকৃতিক উপাদানে তৈরি, সম্পূর্ণ নিরাপদ",
     images: [
       "/api/placeholder/400/500",
@@ -216,7 +216,7 @@ export default function ProductGallery({ content }: ProductGalleryProps) {
                           >
                             <Leaf className="w-16 h-16 text-emerald-600" />
                           </motion.div>
-                          <p className="font-semibold">রুহাফিয়া তেল</p>
+                          <p className="font-semibold">Ruhafiya তেল</p>
                         </div>
                       </motion.div>
                     )}
@@ -286,7 +286,7 @@ export default function ProductGallery({ content }: ProductGalleryProps) {
                   whileHover={{ x: 10 }}
                   transition={{ duration: 0.3 }}
                 >
-                  কেন রুহাফিয়া তেল বেছে নেবেন?
+                  কেন Ruhafiya তেল বেছে নেবেন?
                 </motion.h3>
                 <motion.p 
                   className="text-lg text-gray-600 leading-relaxed"
@@ -295,7 +295,7 @@ export default function ProductGallery({ content }: ProductGalleryProps) {
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, delay: 0.4 }}
                 >
-                  রুহাফিয়া তেল সম্পূর্ণ প্রাকৃতিক উপাদানে তৈরি একটি হোমমেড প্রোডাক্ট। 
+                  Ruhafiya তেল সম্পূর্ণ প্রাকৃতিক উপাদানে তৈরি একটি হোমমেড প্রোডাক্ট। 
                   এটি BCSIR কর্তৃক পরীক্ষিত এবং সম্পূর্ণ নিরাপদ।
                 </motion.p>
               </motion.div>

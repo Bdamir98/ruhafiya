@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Noto_Sans_Bengali } from "next/font/google";
 import "./globals.css";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import PerformanceMonitor from "@/components/PerformanceMonitor";
@@ -14,14 +14,22 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const notoSansBengali = Noto_Sans_Bengali({
+  variable: "--font-noto-bengali",
+  subsets: ["bengali", "latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  display: "swap",
+  preload: true,
+});
+
 export const metadata: Metadata = {
   title: {
-    default: "রুহাফিয়া - প্রাকৃতিক ব্যথানাশক তেল | Ruhafiya Pain Relief Oil",
-    template: "%s | রুহাফিয়া"
+    default: "Ruhafiya - প্রাকৃতিক ব্যথানাশক তেল | Ruhafiya Pain Relief Oil",
+    template: "%s | Ruhafiya"
   },
-  description: "রুহাফিয়া প্রাকৃতিক ব্যথানাশক তেল - জয়েন্ট পেইন, মাসল পেইন, আর্থ্রাইটিসের জন্য কার্যকর সমাধান। ১০০% প্রাকৃতিক উপাদান, পার্শ্বপ্রতিক্রিয়া মুক্ত।",
+  description: "Ruhafiya প্রাকৃতিক ব্যথানাশক তেল - জয়েন্ট পেইন, মাসল পেইন, আর্থ্রাইটিসের জন্য কার্যকর সমাধান। ১০০% প্রাকৃতিক উপাদান, পার্শ্বপ্রতিক্রিয়া মুক্ত।",
   keywords: [
-    "রুহাফিয়া", "ব্যথানাশক তেল", "জয়েন্ট পেইন", "আর্থ্রাইটিস", "মাসল পেইন", 
+    "Ruhafiya", "ব্যথানাশক তেল", "জয়েন্ট পেইন", "আর্থ্রাইটিস", "মাসল পেইন", 
     "প্রাকৃতিক চিকিৎসা", "হার্বাল তেল", "ব্যথার ও���ুধ", "বাংলাদেশ", "pain relief oil"
   ],
   authors: [{ name: "Ruhafiya Healthcare" }],
@@ -44,7 +52,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'bn_BD',
     url: '/',
-    title: 'রুহাফিয়া - প্রাকৃতিক ব্যথানাশক তেল',
+    title: 'Ruhafiya - প্রাকৃতিক ব্যথানাশক তেল',
     description: 'জয়েন্ট পেইন, মাসল পেইন, আর্থ্রাইটিসের জন্য কার্যকর প্রাকৃতিক সমাধান',
     siteName: 'Ruhafiya',
     images: [
@@ -52,13 +60,13 @@ export const metadata: Metadata = {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'রুহাফিয়া ব্যথানাশক তেল',
+        alt: 'Ruhafiya ব্যথানাশক তেল',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'রুহাফিয়া - প্রাকৃতিক ব্যথানাশক তেল',
+    title: 'Ruhafiya - প্রাকৃতিক ব্যথানাশক তেল',
     description: 'জয়েন্ট পেইন, মাসল পেইন, আর্থ্রাইটিসে�� জন্য কার্যকর প্রাকৃতিক সমাধান',
     images: ['/og-image.jpg'],
   },
@@ -103,8 +111,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="bn">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${notoSansBengali.variable} antialiased bengali-text`}
       >
         <PerformanceMonitor />
         <ErrorBoundary>

@@ -147,7 +147,7 @@ export default function OrderForm({ content }: OrderFormProps) {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
                     <div className="w-16 h-16 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-xl flex items-center justify-center">
-                      <span className="text-emerald-700 font-bold text-sm">রুহাফিয়া</span>
+                      <span className="text-emerald-700 font-bold text-sm">Ruhafiya</span>
                     </div>
                     <div>
                       <h4 className="text-lg font-bold text-gray-800">একক প্যাকেজ</h4>
@@ -182,10 +182,10 @@ export default function OrderForm({ content }: OrderFormProps) {
                   <div className="flex items-center gap-4">
                     <div className="flex gap-2">
                       <div className="w-12 h-12 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-lg flex items-center justify-center">
-                        <span className="text-emerald-700 font-bold text-xs">রুহাফিয়া</span>
+                        <span className="text-emerald-700 font-bold text-xs">Ruhafiya</span>
                       </div>
                       <div className="w-12 h-12 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-lg flex items-center justify-center">
-                        <span className="text-emerald-700 font-bold text-xs">রুহাফিয়া</span>
+                        <span className="text-emerald-700 font-bold text-xs">Ruhafiya</span>
                       </div>
                     </div>
                     <div>

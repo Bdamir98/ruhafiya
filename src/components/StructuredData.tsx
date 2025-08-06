@@ -14,9 +14,9 @@ export default function StructuredData({ type = 'product', data }: StructuredDat
         return {
           "@context": "https://schema.org/",
           "@type": "Product",
-          "name": "রুহাফিয়া প্রাকৃতিক ব্যথানাশক তেল",
+          "name": "Ruhafiya প্রাকৃতিক ব্যথানাশক তেল",
           "alternateName": "Ruhafiya Natural Pain Relief Oil",
-          "description": "রুহাফিয়া প্রাকৃতিক ব্যথানাশক তেল - জয়েন্ট পেইন, মাসল পেইন, আর্থ্রাইটিসের জন্য কার্যকর সমাধান। ১০০% প্রাকৃতিক উপাদান, পার্শ্বপ্রতিক্রিয়া মুক্ত।",
+          "description": "Ruhafiya প্রাকৃতিক ব্যথানাশক তেল - জয়েন্ট পেইন, মাসল পেইন, আর্থ্রাইটিসের জন্য কার্যকর সমাধান। ১০০% প্রাকৃতিক উপাদান, পার্শ্বপ্রতিক্রিয়া মুক্ত।",
           "image": [
             `${baseUrl}/images/ruhafiya-product.jpg`,
             `${baseUrl}/images/ruhafiya-bottle.jpg`,
@@ -113,7 +113,7 @@ export default function StructuredData({ type = 'product', data }: StructuredDat
           "@context": "https://schema.org",
           "@type": "Organization",
           "name": "Ruhafiya Healthcare",
-          "alternateName": "রুহাফিয়া",
+          "alternateName": "Ruhafiya",
           "url": baseUrl,
           "logo": `${baseUrl}/images/ruhafiya-logo.png`,
           "description": "প্রাকৃতিক ব্যথানাশক তেল ও স্বাস্থ্য পণ্যের বিশ্বস্ত ব্র্যান্ড",
@@ -147,7 +147,7 @@ export default function StructuredData({ type = 'product', data }: StructuredDat
           "@context": "https://schema.org",
           "@type": "WebSite",
           "name": "Ruhafiya",
-          "alternateName": "রুহাফিয়া",
+          "alternateName": "Ruhafiya",
           "url": baseUrl,
           "description": "প্রাকৃতিক ব্যথানাশক তেল ও স্বাস্থ্য পণ্যের অনলাইন শপ",
           "inLanguage": ["bn-BD", "en-US"],
@@ -221,7 +221,7 @@ export function FAQStructuredData() {
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "রুহাফিয়া তেল কিভাবে ব্যবহার করবো?",
+        "name": "Ruhafiya তেল কিভাবে ব্যবহার করবো?",
         "acceptedAnswer": {
           "@type": "Answer",
           "text": "ব্যথার স্থানে অল্প পরিমাণ তেল নিয়ে ৫-১০ মিনিট ম্যাসাজ করুন। দিনে ২-৩ বার ব্যবহার করুন।"
@@ -240,7 +240,7 @@ export function FAQStructuredData() {
         "name": "কোন পার্শ্বপ্রতিক্রিয়া আছে কি?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "রুহাফিয়া ১০০% প্রাকৃতিক উপাদানে তৈরি, তাই কোন পার্শ্বপ্রতিক্রিয়া নেই। তবে অ্যালার্জি থাকলে ব্যবহারের আগে পরীক্ষা করে নিন।"
+          "text": "Ruhafiya ১০০% প্রাকৃতিক উপাদানে তৈরি, তাই কোন পার্শ্বপ্রতিক্রিয়া নেই। তবে অ্যালার্জি থাকলে ব্যবহারের আগে পরীক্ষা করে নিন।"
         }
       },
       {

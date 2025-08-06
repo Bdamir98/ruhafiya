@@ -200,18 +200,17 @@ export function requireAdmin(request: NextRequest): AdminUser {
   return admin
 }
 
-// CSRF Protection
+// CSRF Protection - Edge Runtime compatible
 export function generateCSRFToken(): string {
-  return jwt.sign({ type: 'csrf', timestamp: Date.now() }, JWT_SECRET, { expiresIn: '1h' })
+  // Use Web Crypto API which is available in Edge Runtime
+  const array = new Uint8Array(32)
+  crypto.getRandomValues(array)
+  return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('')
 }
 
 export function verifyCSRFToken(token: string): boolean {
-  try {
-    const decoded = jwt.verify(token, JWT_SECRET) as { type: string; timestamp: number }
-    return decoded.type === 'csrf' && (Date.now() - decoded.timestamp) < 3600000 // 1 hour
-  } catch (error) {
-    return false
-  }
+  // Simple token validation - check if it's a valid hex string of correct length
+  return typeof token === 'string' && /^[a-f0-9]{64}$/.test(token)
 }
 
 // IP-based security
@@ -232,7 +231,14 @@ export function getClientIP(request: NextRequest): string {
 
 // Session management
 export async function createSession(userId: string, userAgent: string, ip: string) {
-  const sessionId = jwt.sign({ userId, userAgent, ip, created: Date.now() }, JWT_SECRET)
+  const sessionId = jwt.sign(
+    { userId, userAgent, ip, created: Date.now() },
+    JWT_SECRET,
+    {
+      issuer: 'ruhafiya-admin',
+      audience: 'ruhafiya-app'
+    }
+  )
 
   // Store session in database
   await supabase

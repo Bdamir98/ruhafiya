@@ -30,7 +30,7 @@ export default function Hero({ content }: HeroProps) {
   const [loading, setLoading] = useState(true)
 
   const defaultContent = {
-    customerCount: "৭০,০০০+",
+    customerCount: "7000+",
     buttonText: "অর্ডার করুন"
   }
 
@@ -54,7 +54,7 @@ export default function Hero({ content }: HeroProps) {
           {
             id: 1,
             slide_order: 1,
-            title: "রুহাফিয়া",
+            title: "Ruhafiya",
             subtitle: "প্রাকৃতিক ব্যথা নিরাময়ের তেল",
             description: "১৫-২০ দিন নিয়মিত ব্যবহার করলে হাটু ব্যথা, কাধ ব্যথা, বাত ব্যথা, কোমর ব্যথা সহ সকল ব্যথা দূর হবে ইনশাল্লাহ",
             highlight: "BCSIR কর্তৃক পরীক্ষিত",
@@ -66,7 +66,7 @@ export default function Hero({ content }: HeroProps) {
             slide_order: 2,
             title: "দ্রুত ব্যথা নিরাময়",
             subtitle: "মাত্র ১৫ দিনে ফলাফল",
-            description: "প্রাকৃতিক উপাদানে তৈরি রুহাফিয়া তেল ব্যবহারে দ্রুত ব্যথা থেকে মুক্তি পান। হাজারো গ্রাহকের বিশ্বস্ত পছন্দ।",
+            description: "প্রাকৃতিক উপাদানে তৈরি Ruhafiya তেল ব্যবহারে দ্রুত ব্যথা থেকে মুক্তি পান। হাজারো গ্রাহকের বিশ্বস্ত পছন্দ।",
             highlight: "১০০% প্রাকৃতিক উপাদান",
             gradient_colors: "from-purple-600 via-pink-500 to-red-500",
             is_active: true
@@ -90,7 +90,7 @@ export default function Hero({ content }: HeroProps) {
         {
           id: 1,
           slide_order: 1,
-          title: "রুহাফিয়া",
+          title: "Ruhafiya",
           subtitle: "প্রাকৃতিক ব্যথা নিরাময়ের তেল",
           description: "১৫-২০ দিন নিয়মিত ব্যবহার করলে হাটু ব্যথা, কাধ ব্যথা, বাত ব্যথা, কোমর ব্যথা সহ সকল ব্যথা দূর হবে ইনশাল্লাহ",
           highlight: "BCSIR কর্তৃক পরীক্ষিত",
@@ -358,25 +358,28 @@ export default function Hero({ content }: HeroProps) {
               </motion.div> */}
 
               {/* Main Title */}
-              <motion.h1 
+              <motion.h1
                 variants={itemVariants}
-                className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-white via-emerald-100 to-blue-100 bg-clip-text text-transparent"
+                className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-white via-emerald-100 to-blue-100 bg-clip-text text-transparent bengali-text"
+                style={{ lineHeight: '1.2', paddingTop: '0.5rem', paddingBottom: '0.5rem' }}
               >
                 {currentSlideData.title}
               </motion.h1>
 
               {/* Subtitle */}
-              <motion.h2 
+              <motion.h2
                 variants={itemVariants}
-                className="text-2xl md:text-3xl font-semibold mb-8 text-emerald-100"
+                className="text-2xl md:text-3xl font-semibold mb-8 text-emerald-100 bengali-text"
+                style={{ lineHeight: '1.4', paddingTop: '0.25rem', paddingBottom: '0.25rem' }}
               >
                 {currentSlideData.subtitle}
               </motion.h2>
 
               {/* Description */}
-              <motion.p 
+              <motion.p
                 variants={itemVariants}
-                className="text-lg md:text-xl mb-12 max-w-3xl mx-auto leading-relaxed text-white/90"
+                className="text-lg md:text-xl mb-12 max-w-3xl mx-auto text-white/90 bengali-text"
+                style={{ lineHeight: '1.8', paddingTop: '0.25rem', paddingBottom: '0.25rem' }}
               >
                 {currentSlideData.description}
               </motion.p>
@@ -393,20 +396,20 @@ export default function Hero({ content }: HeroProps) {
                 >
                   <Users className="w-8 h-8 text-emerald-300" />
                   <div className="text-left">
-                    <div className="text-2xl font-bold">{heroContent.customerCount}</div>
-                    <div className="text-sm text-white/80">সন্তুষ্ট গ্রাহক</div>
+                    <div className="text-2xl font-bold price-text">{heroContent.customerCount}</div>
+                    <div className="text-sm text-white/80 bengali-text" style={{ lineHeight: '1.6' }}>সন্তুষ্ট গ্রাহক</div>
                   </div>
                 </motion.div>
-                
-                <motion.div 
+
+                <motion.div
                   className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-2xl px-6 py-4 border border-white/20"
                   whileHover={{ scale: 1.05, y: -5 }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
                   <Star className="w-8 h-8 text-yellow-300" />
                   <div className="text-left">
-                    <div className="text-2xl font-bold">৪.৯/৫</div>
-                    <div className="text-sm text-white/80">গ্রাহক রেটিং</div>
+                    <div className="text-2xl font-bold price-text">৪.৯/৫</div>
+                    <div className="text-sm text-white/80 bengali-text" style={{ lineHeight: '1.6' }}>গ্রাহক রেটিং</div>
                   </div>
                 </motion.div>
               </motion.div>
@@ -415,15 +418,16 @@ export default function Hero({ content }: HeroProps) {
               <motion.button
                 variants={itemVariants}
                 onClick={scrollToOrder}
-                className="group relative inline-flex items-center gap-3 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold text-xl px-12 py-6 rounded-2xl shadow-2xl border-2 border-white/20"
-                whileHover={{ 
+                className="group relative inline-flex items-center gap-3 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold text-xl rounded-2xl shadow-2xl border-2 border-white/20 bengali-text"
+                style={{ padding: '1.5rem 3rem', lineHeight: '1.4' }}
+                whileHover={{
                   scale: 1.05,
                   boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)"
                 }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <span>{heroContent.buttonText}</span>
+                <span className="bengali-text" style={{ lineHeight: '1.4' }}>{heroContent.buttonText}</span>
                 <motion.div
                   animate={{ y: [0, 5, 0] }}
                   transition={{ duration: 2, repeat: Infinity }}
@@ -441,19 +445,19 @@ export default function Hero({ content }: HeroProps) {
                 className="mt-12 flex flex-wrap justify-center gap-6 text-sm text-white/70"
               >
                 {["১০০% প্রাকৃতিক", "পার্শ্বপ্রতিক্রিয়া মুক্ত", "ফ্রি হোম ডেলিভারি"].map((text, index) => (
-                  <motion.div 
+                  <motion.div
                     key={text}
                     className="flex items-center gap-2"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 1 + index * 0.2 }}
                   >
-                    <motion.div 
+                    <motion.div
                       className="w-2 h-2 bg-green-400 rounded-full"
                       animate={{ scale: [1, 1.2, 1] }}
                       transition={{ duration: 2, repeat: Infinity, delay: index * 0.5 }}
                     />
-                    <span>{text}</span>
+                    <span className="bengali-text" style={{ lineHeight: '1.6' }}>{text}</span>
                   </motion.div>
                 ))}
               </motion.div>

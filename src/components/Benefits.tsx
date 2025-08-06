@@ -50,7 +50,7 @@ export default function Benefits({ content }: BenefitsProps) {
   ]
 
   const defaultContent = {
-    title: "রুহাফিয়া তেলের উপকারিতা",
+    title: "Ruhafiya তেলের উপকারিতা",
     subtitle: "প্রাকৃতিক উপাদানে তৈরি, সকল ধরনের ব্যথার জন্য কার্যকর",
     benefits: defaultBenefits
   }
@@ -160,8 +160,9 @@ export default function Benefits({ content }: BenefitsProps) {
           className="text-center mb-16"
           variants={headerVariants}
         >
-          <motion.h2 
-            className="text-4xl md:text-5xl font-bold text-gray-800 mb-6 bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent"
+          <motion.h2
+            className="text-4xl md:text-5xl font-bold text-gray-800 mb-6 bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent bengali-text"
+            style={{ lineHeight: '1.3', paddingTop: '0.5rem', paddingBottom: '0.5rem' }}
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -169,8 +170,9 @@ export default function Benefits({ content }: BenefitsProps) {
           >
             {benefitsContent.title}
           </motion.h2>
-          <motion.p 
-            className="text-xl text-gray-600 max-w-3xl mx-auto"
+          <motion.p
+            className="text-xl text-gray-600 max-w-3xl mx-auto bengali-text"
+            style={{ lineHeight: '1.7', paddingTop: '0.25rem', paddingBottom: '0.25rem' }}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -258,14 +260,16 @@ export default function Benefits({ content }: BenefitsProps) {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 + index * 0.1 }}
                 >
-                  <motion.h3 
-                    className="text-xl font-bold text-gray-800 mb-4 group-hover:text-emerald-700 transition-colors duration-300"
+                  <motion.h3
+                    className="text-xl font-bold text-gray-800 mb-4 group-hover:text-emerald-700 transition-colors duration-300 bengali-text card-title"
+                    style={{ lineHeight: '1.5', paddingTop: '0.25rem', paddingBottom: '0.25rem' }}
                     whileHover={{ x: 5 }}
                   >
                     {benefit.title}
                   </motion.h3>
-                  <motion.p 
-                    className="text-gray-600 leading-relaxed"
+                  <motion.p
+                    className="text-gray-600 bengali-text"
+                    style={{ lineHeight: '1.7', paddingTop: '0.25rem', paddingBottom: '0.25rem' }}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.5 + index * 0.1 }}

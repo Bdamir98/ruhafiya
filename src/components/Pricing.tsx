@@ -12,6 +12,9 @@ interface PricingProps {
     bundleOfferPrice?: number
     bundleDiscount?: number
     features?: string[]
+    singlePackageImage?: string
+    bundlePackageImage1?: string
+    bundlePackageImage2?: string
   }
 }
 
@@ -19,17 +22,20 @@ export default function Pricing({ content }: PricingProps) {
   const defaultContent = {
     title: "বিশেষ অফার মূল্য",
     subtitle: "সীমিত সময়ের জন্য বিশেষ ছাড়",
-    originalPrice: 1290,
-    offerPrice: 890,
-    bundleOriginalPrice: 1780,
-    bundleOfferPrice: 1650,
-    bundleDiscount: 130,
+    originalPrice: 1350,
+    offerPrice: 850,
+    bundleOriginalPrice: 2700,
+    bundleOfferPrice: 1550,
+    bundleDiscount: 1150,
     features: [
       "ফ্রি হোম ডেলিভারি",
       "ক্যাশ অন ডেলিভারি",
       "১০০% মানি ব্যাক গ্যারান্টি",
       "২৪/৭ কাস্টমার সাপোর্ট"
-    ]
+    ],
+    singlePackageImage: "",
+    bundlePackageImage1: "",
+    bundlePackageImage2: ""
   }
 
   const pricingContent = { ...defaultContent, ...content }
@@ -45,10 +51,10 @@ export default function Pricing({ content }: PricingProps) {
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6 bengali-text" style={{ lineHeight: '1.3', paddingTop: '0.5rem', paddingBottom: '0.5rem' }}>
             {pricingContent.title}
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto bengali-text" style={{ lineHeight: '1.7', paddingTop: '0.25rem', paddingBottom: '0.25rem' }}>
             {pricingContent.subtitle}
           </p>
         </div>
@@ -58,29 +64,37 @@ export default function Pricing({ content }: PricingProps) {
           {/* Single Product */}
           <div className="relative bg-white rounded-3xl p-8 shadow-xl border-2 border-gray-100 hover:border-emerald-300 transition-all duration-300 transform hover:-translate-y-2">
             {/* Discount Badge */}
-            <div className="absolute -top-4 left-8 bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 py-2 rounded-2xl font-bold shadow-lg">
+            <div className="absolute -top-4 left-8 bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold shadow-lg rounded-2xl bengali-text" style={{ padding: '0.75rem 1.5rem', lineHeight: '1.4' }}>
               {singleDiscount}% ছাড়
             </div>
 
             <div className="text-center mb-8">
-              <h3 className="text-2xl font-bold text-gray-800 mb-4">একক প্যাকেজ</h3>
+              <h3 className="text-2xl font-bold text-gray-800 mb-4 bengali-text card-title" style={{ lineHeight: '1.5', paddingTop: '0.25rem', paddingBottom: '0.25rem' }}>একক প্যাকেজ</h3>
               
-              {/* Product Image Placeholder */}
-              <div className="w-32 h-32 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-2xl mx-auto mb-6 flex items-center justify-center">
-                <div className="w-20 h-20 bg-emerald-300 rounded-full flex items-center justify-center">
-                  <span className="text-emerald-700 font-bold">রুহাফিয়া</span>
-                </div>
+              {/* Product Image */}
+              <div className="w-32 h-32 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-2xl mx-auto mb-6 flex items-center justify-center overflow-hidden">
+                {pricingContent.singlePackageImage ? (
+                  <img
+                    src={pricingContent.singlePackageImage}
+                    alt="Ruhafiya Single Package"
+                    className="w-full h-full object-cover rounded-2xl"
+                  />
+                ) : (
+                  <div className="w-20 h-20 bg-emerald-300 rounded-full flex items-center justify-center">
+                    <span className="text-emerald-700 font-bold">Ruhafiya</span>
+                  </div>
+                )}
               </div>
 
               {/* Pricing */}
               <div className="mb-6">
-                <div className="text-gray-500 line-through text-lg mb-2">
+                <div className="text-gray-500 line-through text-lg mb-2 price-text">
                   ৳{pricingContent.originalPrice}
                 </div>
-                <div className="text-4xl font-bold text-emerald-600 mb-2">
+                <div className="text-4xl font-bold text-emerald-600 mb-2 price-text">
                   ৳{pricingContent.offerPrice}
                 </div>
-                <div className="text-gray-600">প্রতি বোতল</div>
+                <div className="text-gray-600 bengali-text" style={{ lineHeight: '1.6' }}>প্রতি বোতল</div>
               </div>
             </div>
 
@@ -91,7 +105,7 @@ export default function Pricing({ content }: PricingProps) {
                   <div className="w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center">
                     <Check className="w-4 h-4 text-white" />
                   </div>
-                  <span className="text-gray-700">{feature}</span>
+                  <span className="text-gray-700 bengali-text" style={{ lineHeight: '1.6' }}>{feature}</span>
                 </div>
               ))}
             </div>
@@ -117,15 +131,31 @@ export default function Pricing({ content }: PricingProps) {
               
               {/* Product Images */}
               <div className="flex justify-center gap-4 mb-6">
-                <div className="w-24 h-24 bg-white/20 rounded-2xl flex items-center justify-center">
-                  <div className="w-16 h-16 bg-white/30 rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold text-sm">রুহাফিয়া</span>
-                  </div>
+                <div className="w-24 h-24 bg-white/20 rounded-2xl flex items-center justify-center overflow-hidden">
+                  {pricingContent.bundlePackageImage1 ? (
+                    <img
+                      src={pricingContent.bundlePackageImage1}
+                      alt="Ruhafiya Bundle Package 1"
+                      className="w-full h-full object-cover rounded-2xl"
+                    />
+                  ) : (
+                    <div className="w-16 h-16 bg-white/30 rounded-full flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">Ruhafiya</span>
+                    </div>
+                  )}
                 </div>
-                <div className="w-24 h-24 bg-white/20 rounded-2xl flex items-center justify-center">
-                  <div className="w-16 h-16 bg-white/30 rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold text-sm">রুহাফিয়া</span>
-                  </div>
+                <div className="w-24 h-24 bg-white/20 rounded-2xl flex items-center justify-center overflow-hidden">
+                  {pricingContent.bundlePackageImage2 ? (
+                    <img
+                      src={pricingContent.bundlePackageImage2}
+                      alt="Ruhafiya Bundle Package 2"
+                      className="w-full h-full object-cover rounded-2xl"
+                    />
+                  ) : (
+                    <div className="w-16 h-16 bg-white/30 rounded-full flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">Ruhafiya</span>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -155,12 +185,7 @@ export default function Pricing({ content }: PricingProps) {
                   <span className="text-white">{feature}</span>
                 </div>
               ))}
-              <div className="flex items-center gap-3">
-                <div className="w-6 h-6 bg-white/30 rounded-full flex items-center justify-center">
-                  <Gift className="w-4 h-4 text-white" />
-                </div>
-                <span className="text-white font-semibold">বোনাস: গরম পানির ব্যাগ ফ্রি!</span>
-              </div>
+              
             </div>
 
             {/* CTA Button */}

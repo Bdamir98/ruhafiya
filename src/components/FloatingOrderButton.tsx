@@ -32,7 +32,7 @@ export default function FloatingOrderButton() {
   }
 
   const whatsappOrder = () => {
-    const message = encodeURIComponent('আমি রুহাফিয়া ব্যথানাশক তেল অর্ডার করতে চাই।')
+    const message = encodeURIComponent('আমি Ruhafiya ব্যথানাশক তেল অর্ডার করতে চাই।')
     window.open(`https://wa.me/8801712345678?text=${message}`, '_blank')
   }
 

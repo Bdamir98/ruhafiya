@@ -404,7 +404,7 @@ export default function SmartLeadCapture({ onCapture }: SmartLeadCaptureProps) {
             </div>
             <div className="flex items-center gap-1">
               <CheckCircle className="w-4 h-4 text-emerald-500" />
-              <span>৭০,০০০+ গ্রাহক</span>
+              <span>7000+ গ্রাহক</span>
             </div>
           </div>
         </motion.div>
