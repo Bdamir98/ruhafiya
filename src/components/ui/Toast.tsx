@@ -30,6 +30,7 @@ const ToastComponent = ({ toast, onRemove }: ToastProps) => {
 
       return () => clearTimeout(timer)
     }
+    return undefined
   }, [id, duration, onRemove])
 
   const getIcon = () => {
@@ -117,19 +118,19 @@ export const useToast = () => {
   }
 
   const success = (title: string, message?: string) => {
-    addToast({ type: 'success', title, message })
+    addToast({ type: 'success', title, message: message || '' })
   }
 
   const error = (title: string, message?: string) => {
-    addToast({ type: 'error', title, message })
+    addToast({ type: 'error', title, message: message || '' })
   }
 
   const warning = (title: string, message?: string) => {
-    addToast({ type: 'warning', title, message })
+    addToast({ type: 'warning', title, message: message || '' })
   }
 
   const info = (title: string, message?: string) => {
-    addToast({ type: 'info', title, message })
+    addToast({ type: 'info', title, message: message || '' })
   }
 
   return {

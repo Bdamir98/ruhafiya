@@ -46,6 +46,7 @@ export default function SmartLeadCapture({ onCapture }: SmartLeadCaptureProps) {
       }, 300)
       return () => clearTimeout(timer)
     }
+    return undefined
   }, [showPopup])
 
   // Detect user information

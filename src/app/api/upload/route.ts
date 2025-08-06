@@ -1,7 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { uploadFileAdmin, STORAGE_BUCKETS } from '@/lib/storage-admin'
+// import { uploadFileAdmin, STORAGE_BUCKETS } from '@/lib/storage-admin'
 
 export async function POST(request: NextRequest) {
+  // Temporary mock for build - replace with actual implementation when Supabase is configured
+  if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    return NextResponse.json(
+      { success: false, error: 'Supabase not configured' },
+      { status: 503 }
+    )
+  }
+
+  // Import here to avoid build-time errors when env vars are missing
+  const { uploadFileAdmin, STORAGE_BUCKETS } = await import('@/lib/storage-admin')
+
   try {
     const formData = await request.formData()
     const file = formData.get('file') as File

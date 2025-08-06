@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { LayoutDashboard, ShoppingCart, Settings, LogOut, Leaf, Menu, X } from 'lucide-react'
+import { LayoutDashboard, ShoppingCart, Settings, LogOut, Leaf, Menu, X, BarChart3, Package } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface AdminSidebarProps {
@@ -25,6 +25,16 @@ export default function AdminSidebar({ activeTab, setActiveTab, onLogout }: Admi
       icon: ShoppingCart,
     },
     {
+      id: 'analytics',
+      label: 'Analytics',
+      icon: BarChart3,
+    },
+    {
+      id: 'inventory',
+      label: 'Inventory',
+      icon: Package,
+    },
+    {
       id: 'website',
       label: 'Website Editor',
       icon: Settings,
@@ -38,20 +48,10 @@ export default function AdminSidebar({ activeTab, setActiveTab, onLogout }: Admi
 
   const sidebarVariants = {
     open: {
-      x: 0,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 30
-      }
+      x: 0
     },
     closed: {
-      x: "-100%",
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 30
-      }
+      x: "-100%"
     }
   }
 

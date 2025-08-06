@@ -209,9 +209,9 @@ export function createRequestContext(request: Request): Partial<LogEntry> {
   return {
     method: request.method,
     url: request.url,
-    userAgent: request.headers.get('user-agent') || undefined,
-    ip: request.headers.get('x-forwarded-for') || 
-        request.headers.get('x-real-ip') || 
-        undefined,
+    userAgent: request.headers.get('user-agent') || 'unknown',
+    ip: request.headers.get('x-forwarded-for') ||
+        request.headers.get('x-real-ip') ||
+        'unknown',
   }
 }

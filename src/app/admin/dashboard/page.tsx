@@ -19,6 +19,8 @@ import AdminSidebar from '@/components/admin/AdminSidebar'
 import OrdersTable from '@/components/admin/OrdersTable'
 import WebsiteEditor from '@/components/admin/WebsiteEditor'
 import DashboardStats from '@/components/admin/DashboardStats'
+import AnalyticsDashboard from '@/components/admin/AnalyticsDashboard'
+import InventoryManager from '@/components/admin/InventoryManager'
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('dashboard')
@@ -61,6 +63,10 @@ export default function AdminDashboard() {
         return <DashboardStats stats={stats} />
       case 'orders':
         return <OrdersTable />
+      case 'analytics':
+        return <AnalyticsDashboard />
+      case 'inventory':
+        return <InventoryManager />
       case 'website':
         return <WebsiteEditor />
       default:
@@ -90,11 +96,15 @@ export default function AdminDashboard() {
                 <h1 className="text-xl lg:text-2xl font-bold text-gray-800">
                   {activeTab === 'dashboard' && 'Dashboard'}
                   {activeTab === 'orders' && 'Order Management'}
+                  {activeTab === 'analytics' && 'Analytics & Reports'}
+                  {activeTab === 'inventory' && 'Inventory Management'}
                   {activeTab === 'website' && 'Website Customization'}
                 </h1>
                 <p className="text-sm lg:text-base text-gray-600 mt-1">
                   {activeTab === 'dashboard' && 'Ruhafiya Admin Panel'}
                   {activeTab === 'orders' && 'View and manage all orders'}
+                  {activeTab === 'analytics' && 'Sales and customer analytics'}
+                  {activeTab === 'inventory' && 'Track stock and manage inventory'}
                   {activeTab === 'website' && 'Edit website content'}
                 </p>
               </div>

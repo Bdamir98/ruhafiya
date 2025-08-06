@@ -123,6 +123,7 @@ export default function HeroSliderEditor() {
   }
 
   const handleDeleteClick = (slide: HeroSlide) => {
+    if (!slide.id) return
     setDeleteConfirm({
       isOpen: true,
       slideId: slide.id,
@@ -166,6 +167,7 @@ export default function HeroSliderEditor() {
 
     const newSlides = [...slides]
     const [movedSlide] = newSlides.splice(slideIndex, 1)
+    if (!movedSlide) return
     newSlides.splice(newIndex, 0, movedSlide)
 
     // Update slide orders
@@ -292,8 +294,16 @@ export default function HeroSliderEditor() {
           {/* Background Image */}
           <div>
             <ImageUploadPresets.HeroImage
-              currentImage={formData.background_image}
-              onImageChange={(imageUrl) => setFormData({ ...formData, background_image: imageUrl || undefined })}
+              currentImage={formData.background_image || ''}
+              onImageChange={(imageUrl) => {
+                const updatedData = { ...formData }
+                if (imageUrl) {
+                  updatedData.background_image = imageUrl
+                } else {
+                  delete updatedData.background_image
+                }
+                setFormData(updatedData)
+              }}
             />
           </div>
 

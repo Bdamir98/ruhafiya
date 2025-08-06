@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
         new_stock: newStock,
         reason,
         notes: notes || '',
-        created_by: adminUser?.id
+        created_by: adminUser?.userId
       })
 
     if (movementError) {

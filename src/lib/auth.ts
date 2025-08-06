@@ -100,11 +100,14 @@ export function verifyAdminToken(token: string): AdminUser | null {
     return {
       userId: decoded.userId,
       email: decoded.email,
-      role: decoded.role,
-      permissions: decoded.permissions
+      role: decoded.role || 'user',
+      permissions: decoded.permissions || []
     }
   } catch (error) {
-    console.error('Token verification failed:', error)
+    // Log only in development to avoid token leakage
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Token verification failed:', error)
+    }
     return null
   }
 }
@@ -117,7 +120,10 @@ export function verifyRefreshToken(token: string): { userId: string } | null {
     }) as { userId: string }
     return decoded
   } catch (error) {
-    console.error('Refresh token verification failed:', error)
+    // Log only in development to avoid token leakage
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Refresh token verification failed:', error)
+    }
     return null
   }
 }
@@ -214,14 +220,14 @@ export function getClientIP(request: NextRequest): string {
   const realIP = request.headers.get('x-real-ip')
 
   if (forwarded) {
-    return forwarded.split(',')[0].trim()
+    return forwarded.split(',')[0]?.trim() || 'unknown'
   }
 
   if (realIP) {
     return realIP
   }
 
-  return request.ip || 'unknown'
+  return 'unknown'
 }
 
 // Session management

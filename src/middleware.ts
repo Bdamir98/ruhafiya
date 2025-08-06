@@ -141,9 +141,9 @@ export function middleware(request: NextRequest) {
     })
   }
 
-  // Log security events for admin routes
-  if (pathname.startsWith('/admin') || pathname.startsWith('/api/admin/')) {
-    console.log(`[SECURITY] ${request.method} ${pathname} - IP: ${clientIP} - UA: ${userAgent.substring(0, 100)}`)
+  // Log security events for admin routes (only in development)
+  if (process.env.NODE_ENV === 'development' && (pathname.startsWith('/admin') || pathname.startsWith('/api/admin/'))) {
+    console.log(`[SECURITY] ${request.method} ${pathname} - IP: ${clientIP}`)
   }
 
   return response

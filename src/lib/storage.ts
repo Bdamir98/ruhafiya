@@ -59,7 +59,7 @@ export async function uploadFile(
     if (!validation.valid) {
       return {
         success: false,
-        error: validation.error
+        error: validation.error || 'File validation failed'
       }
     }
 

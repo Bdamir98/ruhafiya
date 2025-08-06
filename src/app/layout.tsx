@@ -73,17 +73,19 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  verification: {
-    google: process.env.GOOGLE_VERIFICATION_ID,
-    yandex: process.env.YANDEX_VERIFICATION_ID,
-    other: {
-      'msvalidate.01': process.env.BING_VERIFICATION_ID,
+  ...(process.env.GOOGLE_VERIFICATION_ID || process.env.YANDEX_VERIFICATION_ID || process.env.BING_VERIFICATION_ID ? {
+    verification: {
+      ...(process.env.GOOGLE_VERIFICATION_ID && { google: process.env.GOOGLE_VERIFICATION_ID }),
+      ...(process.env.YANDEX_VERIFICATION_ID && { yandex: process.env.YANDEX_VERIFICATION_ID }),
+      ...(process.env.BING_VERIFICATION_ID && {
+        other: { 'msvalidate.01': process.env.BING_VERIFICATION_ID }
+      })
     }
-  },
+  } : {}),
   category: 'Health & Wellness',
   classification: 'Natural Health Products',
   other: {
-    'fb:app_id': process.env.FACEBOOK_APP_ID,
+    ...(process.env.FACEBOOK_APP_ID && { 'fb:app_id': process.env.FACEBOOK_APP_ID }),
     'application-name': 'Ruhafiya',
     'msapplication-TileColor': '#10b981',
     'theme-color': '#10b981',

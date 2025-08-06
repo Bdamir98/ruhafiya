@@ -126,11 +126,7 @@ export default function AnalyticsDashboard() {
   }
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('bn-BD', {
-      style: 'currency',
-      currency: 'BDT',
-      minimumFractionDigits: 0
-    }).format(amount)
+    return `৳${amount.toLocaleString()}`
   }
 
   const StatCard = ({ 
@@ -148,7 +144,7 @@ export default function AnalyticsDashboard() {
   }) => (
     <motion.div
       className="bg-white rounded-xl p-6 shadow-lg border border-gray-100"
-      whileHover={{ y: -2, shadow: "0 10px 25px -3px rgba(0, 0, 0, 0.1)" }}
+      whileHover={{ y: -2 }}
       transition={{ duration: 0.2 }}
     >
       <div className="flex items-center justify-between">

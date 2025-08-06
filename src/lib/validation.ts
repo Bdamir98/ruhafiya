@@ -133,7 +133,7 @@ export const validateAndSanitize = <T>(
     if (error instanceof z.ZodError) {
       return {
         success: false,
-        errors: error.errors.map(err => err.message)
+        errors: error.issues.map(err => err.message)
       }
     }
     return {

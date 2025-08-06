@@ -1,7 +1,7 @@
 'use client'
 
-import Image from 'next/image'
-import { useState } from 'react'
+import Image, { ImageProps } from 'next/image'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 
 interface OptimizedImageProps {
@@ -67,26 +67,23 @@ export default function OptimizedImage({
     )
   }
 
-  const imageProps = {
-    src,
-    alt,
-    quality,
-    priority,
-    placeholder,
-    blurDataURL: blurDataURL || defaultBlurDataURL,
-    sizes: sizes || '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw',
-    loading,
-    onLoad: handleLoad,
-    onError: handleError,
-    className: `${className} transition-opacity duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'}`,
-  }
+
 
   if (fill) {
     return (
       <div className="relative overflow-hidden">
         <Image
-          {...imageProps}
-          fill
+          src={src}
+          alt={alt}
+          fill={true}
+          quality={quality}
+          priority={priority || false}
+          placeholder={placeholder}
+          blurDataURL={blurDataURL || defaultBlurDataURL}
+          sizes={sizes || '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'}
+          onLoad={handleLoad}
+          onError={handleError}
+          className={`${className} transition-opacity duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
           style={{ objectFit }}
         />
         {isLoading && (
@@ -99,13 +96,22 @@ export default function OptimizedImage({
   return (
     <div className="relative">
       <Image
-        {...imageProps}
-        width={width}
-        height={height}
+        src={src}
+        alt={alt}
+        width={width || 400}
+        height={height || 300}
+        quality={quality}
+        priority={priority || false}
+        placeholder={placeholder}
+        blurDataURL={blurDataURL || defaultBlurDataURL}
+        sizes={sizes || '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'}
+        onLoad={handleLoad}
+        onError={handleError}
+        className={`${className} transition-opacity duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
         style={{ objectFit }}
       />
       {isLoading && (
-        <div 
+        <div
           className="absolute inset-0 bg-gray-200 animate-pulse"
           style={{ width, height }}
         />
@@ -132,12 +138,12 @@ export function LazyImage({
   const [imageRef, setImageRef] = useState<HTMLDivElement | null>(null)
 
   // Use intersection observer to detect when image is in view
-  useState(() => {
+  useEffect(() => {
     if (!imageRef) return
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry && entry.isIntersecting) {
           setIsInView(true)
           observer.disconnect()
         }
@@ -160,13 +166,16 @@ export function LazyImage({
       style={{ width, height }}
     >
       {isInView && (
-        <OptimizedImage
+        <Image
           src={src}
           alt={alt}
-          width={width}
-          height={height}
+          width={width || 400}
+          height={height || 300}
           className={className}
-          {...props}
+          priority={false}
+          quality={85}
+          placeholder="blur"
+          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
         />
       )}
     </div>
@@ -195,24 +204,22 @@ export function ProgressiveImage({
       <OptimizedImage
         src={lowQualityImage}
         alt={alt}
-        width={width}
-        height={height}
+        width={width || 400}
+        height={height || 300}
         className={`${className} ${isHighQualityLoaded ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
         quality={20}
-        priority
-        {...props}
+        priority={true}
       />
-      
+
       {/* High quality image */}
       <div className="absolute inset-0">
         <OptimizedImage
           src={src}
           alt={alt}
-          width={width}
-          height={height}
+          width={width || 400}
+          height={height || 300}
           className={`${className} ${isHighQualityLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
           onLoad={() => setIsHighQualityLoaded(true)}
-          {...props}
         />
       </div>
     </div>
@@ -264,11 +271,10 @@ export function AnimatedImage({
       <OptimizedImage
         src={src}
         alt={alt}
-        width={width}
-        height={height}
+        width={width || 400}
+        height={height || 300}
         className={className}
         onLoad={() => setIsLoaded(true)}
-        {...props}
       />
     </motion.div>
   )

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -153,12 +154,12 @@ export default function AdminLogin() {
 
         {/* Back to Home */}
         <div className="text-center mt-6">
-          <a
+          <Link
             href="/"
             className="text-white/80 hover:text-white transition-colors duration-300 text-sm"
           >
             ← Back to Home
-          </a>
+          </Link>
         </div>
       </div>
     </div>
