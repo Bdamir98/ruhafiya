@@ -400,7 +400,7 @@ export default function ProductGallery({ content }: ProductGalleryProps) {
                     animate={{ scale: [1, 1.05, 1] }}
                     transition={{ duration: 2, repeat: Infinity }}
                   >
-                    লিমিটেড স্টক!
+                    ১০০% টাকা ফেরতের নিশ্চয়তা!
                   </motion.h4>
                   <motion.p 
                     className="text-emerald-100"
@@ -408,7 +408,7 @@ export default function ProductGallery({ content }: ProductGalleryProps) {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 1 }}
                   >
-                    তাই দেরি না করে এখনই অর্ডার করুন
+                    বিশ্বাসের সঙ্গে অর্ডার করুন আজই।
                   </motion.p>
                 </div>
               </motion.div>

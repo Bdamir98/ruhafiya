@@ -22,6 +22,10 @@ const notoSansBengali = Noto_Sans_Bengali({
   preload: true,
 });
 
+// Note: Baloo Da 2 is loaded via CSS import in globals.css since it's not available in next/font/google
+// We'll define the CSS variable here for consistency
+const balooDa2Variable = "--font-baloo-da-2";
+
 export const metadata: Metadata = {
   title: {
     default: "Ruhafiya - প্রাকৃতিক ব্যথানাশক তেল | Ruhafiya Pain Relief Oil",
@@ -114,9 +118,11 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://fonts.maateen.me" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${notoSansBengali.variable} antialiased bengali-text`}
+        style={{ [balooDa2Variable]: "'Baloo Da 2', sans-serif" } as React.CSSProperties}
       >
         <PerformanceMonitor />
         <ErrorBoundary>

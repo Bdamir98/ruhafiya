@@ -157,9 +157,9 @@ export default function WebsiteEditor() {
             "১০০% মানি ব্যাক গ্যারান্টি",
             "২৪/৭ কাস্টমার সাপোর্ট"
           ],
-          singlePackageImage: "",
-          bundlePackageImage1: "",
-          bundlePackageImage2: ""
+          singlePackageImage: "https://ugfrjijagqiwpviqiwbi.supabase.co/storage/v1/object/public/product-images/products/1754507239418_5w3jhv0czjv.png",
+          bundlePackageImage1: "https://ugfrjijagqiwpviqiwbi.supabase.co/storage/v1/object/public/product-images/products/1754507278237_qepjrewad7.png",
+          bundlePackageImage2: "https://ugfrjijagqiwpviqiwbi.supabase.co/storage/v1/object/public/product-images/products/1754507281859_7i5kmkhjrln.png"
         }
       },
       {
@@ -167,8 +167,8 @@ export default function WebsiteEditor() {
         content: {
           title: 'অর্ডার করুন',
           subtitle: 'নিচের ফর্মটি পূরণ করে আপনার অর্ডার সম্পন্ন করুন',
-          singlePrice: 890,
-          bundlePrice: 1650
+          singlePrice: 850,
+          bundlePrice: 1550
         }
       },
       {
@@ -1128,6 +1128,13 @@ export default function WebsiteEditor() {
       case 'orderForm':
         return (
           <div className="space-y-6">
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+              <p className="text-sm text-blue-700">
+                <strong>Note:</strong> Product images and offer prices in the package selection are automatically synchronized with the Pricing section.
+                To update product images or offer prices, go to the Pricing section. The prices below are used as fallback values.
+              </p>
+            </div>
+
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
                 Section Title

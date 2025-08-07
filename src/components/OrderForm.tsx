@@ -21,6 +21,9 @@ interface OrderFormProps {
     subtitle?: string
     singlePrice?: number
     bundlePrice?: number
+    singlePackageImage?: string
+    bundlePackageImage1?: string
+    bundlePackageImage2?: string
   }
 }
 
@@ -33,8 +36,11 @@ export default function OrderForm({ content }: OrderFormProps) {
   const defaultContent = {
     title: "অর্ডার করুন",
     subtitle: "নিচের ফর্মটি পূরণ করে আপনার অর্ডার সম্পন্ন করুন",
-    singlePrice: 890,
-    bundlePrice: 1650
+    singlePrice: 850,
+    bundlePrice: 1550,
+    singlePackageImage: "https://ugfrjijagqiwpviqiwbi.supabase.co/storage/v1/object/public/product-images/products/1754507239418_5w3jhv0czjv.png",
+    bundlePackageImage1: "https://ugfrjijagqiwpviqiwbi.supabase.co/storage/v1/object/public/product-images/products/1754507278237_qepjrewad7.png",
+    bundlePackageImage2: "https://ugfrjijagqiwpviqiwbi.supabase.co/storage/v1/object/public/product-images/products/1754507281859_7i5kmkhjrln.png"
   }
 
   const formContent = { ...defaultContent, ...content }
@@ -146,8 +152,16 @@ export default function OrderForm({ content }: OrderFormProps) {
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-xl flex items-center justify-center">
-                      <span className="text-emerald-700 font-bold text-sm">Ruhafiya</span>
+                    <div className="w-16 h-16 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-xl flex items-center justify-center overflow-hidden">
+                      {formContent.singlePackageImage ? (
+                        <img
+                          src={formContent.singlePackageImage}
+                          alt="Ruhafiya Single Package"
+                          className="w-full h-full object-cover rounded-xl"
+                        />
+                      ) : (
+                        <span className="text-emerald-700 font-bold text-sm">Ruhafiya</span>
+                      )}
                     </div>
                     <div>
                       <h4 className="text-lg font-bold text-gray-800">একক প্যাকেজ</h4>
@@ -176,16 +190,32 @@ export default function OrderForm({ content }: OrderFormProps) {
                 onClick={() => setSelectedPackage('bundle')}
               >
                 <div className="absolute -top-3 left-6 bg-gradient-to-r from-orange-500 to-red-500 text-white px-4 py-1 rounded-full text-sm font-bold">
-                  ১৩০ টাকা ছাড়
+                  ১৫০ টাকা ছাড়
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
                     <div className="flex gap-2">
-                      <div className="w-12 h-12 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-lg flex items-center justify-center">
-                        <span className="text-emerald-700 font-bold text-xs">Ruhafiya</span>
+                      <div className="w-12 h-12 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-lg flex items-center justify-center overflow-hidden">
+                        {formContent.bundlePackageImage1 ? (
+                          <img
+                            src={formContent.bundlePackageImage1}
+                            alt="Ruhafiya Bundle Package 1"
+                            className="w-full h-full object-cover rounded-lg"
+                          />
+                        ) : (
+                          <span className="text-emerald-700 font-bold text-xs">Ruhafiya</span>
+                        )}
                       </div>
-                      <div className="w-12 h-12 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-lg flex items-center justify-center">
-                        <span className="text-emerald-700 font-bold text-xs">Ruhafiya</span>
+                      <div className="w-12 h-12 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-lg flex items-center justify-center overflow-hidden">
+                        {formContent.bundlePackageImage2 ? (
+                          <img
+                            src={formContent.bundlePackageImage2}
+                            alt="Ruhafiya Bundle Package 2"
+                            className="w-full h-full object-cover rounded-lg"
+                          />
+                        ) : (
+                          <span className="text-emerald-700 font-bold text-xs">Ruhafiya</span>
+                        )}
                       </div>
                     </div>
                     <div>
@@ -194,7 +224,7 @@ export default function OrderForm({ content }: OrderFormProps) {
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-sm text-gray-400 line-through">৳১,৭৮০</div>
+                    <div className="text-sm text-gray-400 line-through">৳১,৭00</div>
                     <div className="text-2xl font-bold text-emerald-600">৳{formContent.bundlePrice}</div>
                     <div className="text-sm text-gray-500">ফ্রি ডেলিভারি</div>
                   </div>

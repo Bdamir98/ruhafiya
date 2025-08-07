@@ -143,7 +143,14 @@ export default function Home() {
       </motion.div>
       
       <motion.div variants={sectionVariants}>
-        <OrderForm content={websiteContent.orderForm} />
+        <OrderForm content={{
+          ...websiteContent.orderForm,
+          singlePackageImage: websiteContent.pricing?.singlePackageImage,
+          bundlePackageImage1: websiteContent.pricing?.bundlePackageImage1,
+          bundlePackageImage2: websiteContent.pricing?.bundlePackageImage2,
+          singlePrice: websiteContent.pricing?.offerPrice || 850,
+          bundlePrice: websiteContent.pricing?.bundleOfferPrice || 1550
+        }} />
       </motion.div>
       
       <motion.div variants={sectionVariants}>

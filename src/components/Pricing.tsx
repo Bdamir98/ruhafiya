@@ -33,12 +33,18 @@ export default function Pricing({ content }: PricingProps) {
       "১০০% মানি ব্যাক গ্যারান্টি",
       "২৪/৭ কাস্টমার সাপোর্ট"
     ],
-    singlePackageImage: "",
-    bundlePackageImage1: "",
-    bundlePackageImage2: ""
+    singlePackageImage: "https://ugfrjijagqiwpviqiwbi.supabase.co/storage/v1/object/public/product-images/products/1754507239418_5w3jhv0czjv.png",
+    bundlePackageImage1: "https://ugfrjijagqiwpviqiwbi.supabase.co/storage/v1/object/public/product-images/products/1754507278237_qepjrewad7.png",
+    bundlePackageImage2: "https://ugfrjijagqiwpviqiwbi.supabase.co/storage/v1/object/public/product-images/products/1754507281859_7i5kmkhjrln.png"
   }
 
-  const pricingContent = { ...defaultContent, ...content }
+  // Merge default content with provided content, ensuring all required fields are present
+  const pricingContent = {
+    ...defaultContent,
+    ...content,
+    // Ensure features array exists and has content
+    features: content?.features && content.features.length > 0 ? content.features : defaultContent.features
+  }
 
   const singleDiscount = Math.round(((pricingContent.originalPrice - pricingContent.offerPrice) / pricingContent.originalPrice) * 100)
 
