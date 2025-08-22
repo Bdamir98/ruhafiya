@@ -52,44 +52,45 @@ export async function POST(req: NextRequest) {
     // Facebook Conversion API: Purchase
     try {
       const pixelId = process.env.NEXT_PUBLIC_FB_PIXEL_ID;
-      const accessToken = process.env.FB_CAPI_ACCESS_TOKEN;
-      if (pixelId && accessToken) {
-        const fbp = getFbp(req);
-        const fbc = getFbc(req);
-        const clientIp = getClientIp(req);
-        const userAgent = req.headers.get('user-agent') || undefined;
-        const eventId = orderNumber; // use order number for dedup with client event
-
-        // Hash phone for better match rates (E.164-like normalization, digits only) per Meta requirements
-        const normalizePhone = (raw?: string) => (raw || '').trim().replace(/\D+/g, '');
-        const sha256 = (s: string) => createHash('sha256').update(s.toLowerCase()).digest('hex');
-        const normalizedPhone = normalizePhone(orderData.mobileNumber);
-        const hashedPhone = normalizedPhone ? sha256(normalizedPhone) : undefined;
-
-        await sendServerEvent({
-          pixelId,
-          accessToken,
-          eventName: 'Purchase',
-          eventId,
-          eventSourceUrl: req.headers.get('referer') || undefined,
-          actionSource: 'website',
-          userAgent,
-          clientIp,
-          fbp,
-          fbc,
-          userData: hashedPhone ? { ph: hashedPhone } : undefined,
-          customData: {
-            value: totalAmount,
-            currency: 'BDT',
-            content_ids: [String(orderData.productId)],
-            contents: [
-              { id: String(orderData.productId), quantity: orderData.quantity, item_price: unitPrice },
-            ],
-            content_type: 'product',
-            num_items: orderData.quantity,
-          },
-        });
+      const accessToken = process.env.FB_CAPI_ACCESS_TOKEN || process.env.FB_CONVERSION_API_TOKEN;
+      if (!pixelId || !accessToken) {
+        return NextResponse.json({ error: 'FB Pixel or Access Token not configured' }, { status: 500 });
       }
+
+      const fbp = getFbp(req);
+      const fbc = getFbc(req);
+      const clientIp = getClientIp(req);
+      const userAgent = req.headers.get('user-agent') || undefined;
+      const eventId = `srv_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+
+      const normalizedPhone = orderData.mobileNumber?.replace(/\D/g, '') || '';
+      const hashedPhone = normalizedPhone
+        ? createHash('sha256').update(normalizedPhone).digest('hex')
+        : undefined;
+
+      await sendServerEvent({
+        pixelId,
+        accessToken,
+        eventName: 'Purchase',
+        eventId,
+        eventSourceUrl: req.headers.get('referer') || undefined,
+        actionSource: 'website',
+        userAgent,
+        clientIp,
+        fbp,
+        fbc,
+        userData: hashedPhone ? { ph: hashedPhone } : undefined,
+        customData: {
+          value: totalAmount,
+          currency: 'BDT',
+          content_ids: [String(orderData.productId)],
+          contents: [
+            { id: String(orderData.productId), quantity: orderData.quantity, item_price: unitPrice },
+          ],
+          content_type: 'product',
+          num_items: orderData.quantity,
+        },
+      });
     } catch (e) {
       // don't fail the order if tracking fails
       console.warn('FB CAPI error:', e);

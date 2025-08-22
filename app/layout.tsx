@@ -15,6 +15,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="bn">
       <head>
         <meta name="facebook-domain-verification" content="dcyvqi2kznnlrpp6r7dg6efm47ymls" />
+        <link rel="icon" href="/favicon.png" type="image/png" />
         {/* Google Tag Manager */}
         <Script
           id="gtm"

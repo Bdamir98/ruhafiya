@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     const body = BodySchema.parse(json);
 
     const pixelId = process.env.NEXT_PUBLIC_FB_PIXEL_ID;
-    const accessToken = process.env.FB_CAPI_ACCESS_TOKEN;
+    const accessToken = process.env.FB_CAPI_ACCESS_TOKEN || process.env.FB_CONVERSION_API_TOKEN;
     if (!pixelId || !accessToken) {
       return NextResponse.json({ error: 'FB Pixel or Access Token not configured' }, { status: 500 });
     }
