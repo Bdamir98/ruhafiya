@@ -33,3 +33,28 @@ npm run dev
 - GET `/api/products`
 - POST `/api/admin/login`
 - GET `/api/admin/orders`
+
+### Facebook Pixel & Conversions API
+- Browser Pixel: initialized in `app/layout.tsx` using `NEXT_PUBLIC_FB_PIXEL_ID`. Tracks `PageView` by default.
+- Client events implemented:
+  - `ViewContent`: in `src/react-app/pages/Home.tsx`
+  - `InitiateCheckout`: in `src/react-app/components/OrderForm.tsx` (on form mount)
+  - `AddToCart`: in `src/react-app/components/OrderForm.tsx` (on package select)
+  - `Purchase`: fired after successful order submission with `{ eventID: orderNumber }` for deduplication.
+- Server-side CAPI:
+  - `Purchase` sent from `app/api/orders/route.ts` using `src/lib/fb.ts::sendServerEvent()` with `event_id = orderNumber` and `fbp/fbc`, IP, UA.
+
+Environment variables:
+```
+NEXT_PUBLIC_FB_PIXEL_ID="your-pixel-id"            # public (client)
+FB_CAPI_ACCESS_TOKEN="your-capi-access-token"     # server-only secret
+```
+Add them to `.env.local`. Example variables are listed in `.env.example`.
+
+QA (Meta Events Manager > Test Events):
+- Open the site with the test code active and perform flows:
+  - Load home: expect Browser `PageView` and `ViewContent`.
+  - Select a package: expect Browser `AddToCart`.
+  - Open order form: expect Browser `InitiateCheckout`.
+  - Submit order: expect Browser `Purchase` and Server `Purchase` with status `Deduplicated`.
+- Any server-side errors are logged but do not break order flow.

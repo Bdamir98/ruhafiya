@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { createHash } from 'crypto';
 import { z } from 'zod';
 import { OrderSchema } from '@/shared/types';
 import { supabaseServer } from '@/lib/supabase-server';
@@ -59,6 +60,12 @@ export async function POST(req: NextRequest) {
         const userAgent = req.headers.get('user-agent') || undefined;
         const eventId = orderNumber; // use order number for dedup with client event
 
+        // Hash phone for better match rates (E.164-like normalization, digits only) per Meta requirements
+        const normalizePhone = (raw?: string) => (raw || '').trim().replace(/\D+/g, '');
+        const sha256 = (s: string) => createHash('sha256').update(s.toLowerCase()).digest('hex');
+        const normalizedPhone = normalizePhone(orderData.mobileNumber);
+        const hashedPhone = normalizedPhone ? sha256(normalizedPhone) : undefined;
+
         await sendServerEvent({
           pixelId,
           accessToken,
@@ -70,9 +77,11 @@ export async function POST(req: NextRequest) {
           clientIp,
           fbp,
           fbc,
+          userData: hashedPhone ? { ph: hashedPhone } : undefined,
           customData: {
             value: totalAmount,
             currency: 'BDT',
+            content_ids: [String(orderData.productId)],
             contents: [
               { id: String(orderData.productId), quantity: orderData.quantity, item_price: unitPrice },
             ],

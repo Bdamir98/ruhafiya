@@ -42,6 +42,7 @@ export async function sendServerEvent(params: {
   fbc?: string;
   eventId?: string;
   customData?: Record<string, any>;
+  userData?: Record<string, any>;
 }): Promise<{ ok: boolean; status: number; body: any }> {
   const {
     pixelId,
@@ -56,13 +57,14 @@ export async function sendServerEvent(params: {
     fbc,
     eventId,
     customData,
+    userData,
   } = params;
 
-  const userData: Record<string, any> = {};
-  if (clientIp) userData.client_ip_address = clientIp;
-  if (userAgent) userData.client_user_agent = userAgent;
-  if (fbp) userData.fbp = fbp;
-  if (fbc) userData.fbc = fbc;
+  const inferredUserData: Record<string, any> = {};
+  if (clientIp) inferredUserData.client_ip_address = clientIp;
+  if (userAgent) inferredUserData.client_user_agent = userAgent;
+  if (fbp) inferredUserData.fbp = fbp;
+  if (fbc) inferredUserData.fbc = fbc;
 
   const body = {
     data: [
@@ -72,7 +74,7 @@ export async function sendServerEvent(params: {
         action_source: actionSource,
         event_source_url: eventSourceUrl,
         event_id: eventId,
-        user_data: userData,
+        user_data: { ...inferredUserData, ...(userData || {}) },
         custom_data: customData,
       },
     ],

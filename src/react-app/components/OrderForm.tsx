@@ -12,14 +12,39 @@ export default function OrderForm() {
     mobileNumber: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const makeEventId = () => {
+    try {
+      return (window.crypto && 'randomUUID' in window.crypto && (window.crypto as any).randomUUID()) || String(Date.now());
+    } catch {
+      return String(Date.now());
+    }
+  };
 
   // InitiateCheckout on mount when user opens form section
   useEffect(() => {
+    const icId = makeEventId();
     try {
       (window as any).fbq?.('track', 'InitiateCheckout', {
         content_type: 'product',
         currency: 'BDT',
-      });
+      }, { eventID: icId });
+    } catch {}
+
+    // Server-side CAPI mirror for resiliency
+    try {
+      fetch('/api/fb/track', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          eventName: 'InitiateCheckout',
+          eventId: icId,
+          eventSourceUrl: typeof window !== 'undefined' ? window.location.href : undefined,
+          customData: {
+            content_type: 'product',
+            currency: 'BDT',
+          },
+        }),
+      }).catch((err) => console.warn('CAPI InitiateCheckout mirror failed', err));
     } catch {}
   }, []);
 
@@ -50,6 +75,54 @@ export default function OrderForm() {
   const shippingCharge = toNumber(shippingChargeAmount);
   const productPrice = toNumber(selectedProduct?.price as any);
   const totalAmount = productPrice + shippingCharge;
+
+  // Fire AddToCart when user selects a package
+  const handleSelectPackage = (pkg: any) => {
+    setSelectedPackage(pkg.id);
+    const atcId = makeEventId();
+    try {
+      (window as any).fbq?.(
+        'track',
+        'AddToCart',
+        {
+          value: toNumber(pkg?.price) + shippingCharge,
+          currency: 'BDT',
+          content_ids: [String(pkg?.id)],
+          content_name: pkg?.name,
+          content_category: 'Pain Removal Oil',
+          contents: [
+            { id: String(pkg?.id), quantity: 1, item_price: toNumber(pkg?.price) },
+          ],
+          content_type: 'product',
+        },
+        { eventID: atcId }
+      );
+    } catch {}
+
+    // Server-side CAPI mirror for resiliency
+    try {
+      fetch('/api/fb/track', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          eventName: 'AddToCart',
+          eventId: atcId,
+          eventSourceUrl: typeof window !== 'undefined' ? window.location.href : undefined,
+          customData: {
+            value: toNumber(pkg?.price) + shippingCharge,
+            currency: 'BDT',
+            content_ids: [String(pkg?.id)],
+            content_name: pkg?.name,
+            content_category: 'Pain Removal Oil',
+            contents: [
+              { id: String(pkg?.id), quantity: 1, item_price: toNumber(pkg?.price) },
+            ],
+            content_type: 'product',
+          },
+        }),
+      }).catch((err) => console.warn('CAPI AddToCart mirror failed', err));
+    } catch {}
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -86,6 +159,13 @@ export default function OrderForm() {
           (window as any).fbq?.('track', 'Purchase', {
             value: totalAmount,
             currency: 'BDT',
+            content_ids: [String(selectedPackage)],
+            content_name: selectedProduct?.name,
+            content_category: 'Pain Removal Oil',
+            contents: [
+              { id: String(selectedPackage), quantity: 1, item_price: productPrice },
+            ],
+            content_type: 'product',
           }, { eventID: orderNumber });
         } catch {}
 
@@ -136,7 +216,7 @@ export default function OrderForm() {
                             ? 'border-green-600 bg-green-50'
                             : 'border-gray-200 hover:border-green-300'
                         }`}
-                        onClick={() => setSelectedPackage(pkg.id)}
+                        onClick={() => handleSelectPackage(pkg)}
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center space-x-3">
@@ -145,7 +225,7 @@ export default function OrderForm() {
                               name="package"
                               value={pkg.id}
                               checked={selectedPackage === pkg.id}
-                              onChange={() => setSelectedPackage(pkg.id)}
+                              onChange={() => handleSelectPackage(pkg)}
                               className="w-5 h-5   text-green-600"
                             />
                             <div>
